@@ -17,6 +17,8 @@ int  main(){
 	space = firstLetter ;   
 	printf("Введите строку\n");
 	fgets(line, MAX,stdin);
+	firstLetter--;
+	secondLetter--;
                   
 	do                                              
 	{
