@@ -29,13 +29,13 @@ void main()
 		while (*ptr != '\0')
 		{
 			c = *ptr;
-			if (counter <= N - 1) {
+			if (counter <= N ) {
 				fputc(c, fpout);
-				if (counter == N - 1) {
+				if (counter == N ) {
 					fputc(newLine, fpout);
 				}
 			}
-			if (counter > N - 1) {
+			if (counter > N ) {
 				secondLine[index] = c;
 				index++;
 			}
