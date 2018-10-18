@@ -19,28 +19,30 @@ void main()
 	fopen_s(&fpout, "result.txt", "wt");
 	if (fpout == NULL)
 		return;
+	
+	newLine = *"\n";
 	while (!feof(fpin))
 	{
-		newLine = *"\n";
-		ptr = fgets(line, MAXLINE, fpin);
+	ptr = fgets(line, MAXLINE, fpin);
+	counter = 0;
+	index = 0;
 		if (ptr == NULL) {
 			break;
 		}
 		while (*ptr != '\0')
 		{
 			c = *ptr;
-			if (counter <= N ) {
+			if (counter <= N) {
 				fputc(c, fpout);
-				if (counter == N ) {
+				if (counter == N) {
 					fputc(newLine, fpout);
 				}
 			}
-			if (counter > N ) {
+			if (counter > N) {
 				secondLine[index] = c;
 				index++;
 			}
 			counter++;
-			n++;
 			ptr++;
 		}
 		secondLine[index++] = *"\0";
