@@ -1,0 +1,75 @@
+/* FILENAME : task_1_2.c */
+/* Eugene V. Ogurtsov */
+/* Last update : 23.05.2000 */
+/* Физико-математический лицей № 30 */
+/* Сортировка слов в строке. */
+/* Написать программу, которая вводит с клавиатуры строку,
+* состоящую из латинских букв и пробелов, все слова
+* введенной строки упорядочивает по алфавиту и выводит
+* упорядоченную строку на экран. */
+
+#include <stdio.h>
+#include <string.h>
+
+/* Массив для хранения введенной строки */
+char String[30000];
+char newString[30000];
+
+/* Массив номеров позиций, с которых начинаются слова */
+int Words[15000];
+
+/* Количество введенных слов */
+int Number;
+
+/* Основная функция */
+void main(void)
+{
+	int i, j, Temp;
+	int Flag; /* Признак окончания слова */
+
+	printf("Введите строку >\n");
+	gets_s(String);
+	i = 0;
+	while (i < 30000)
+	{
+		if (String[i] != 'a')
+			newString[i] = String[i];
+		else
+			newString[i] = String[i + 1];
+		i++;
+	}
+
+	for (Number = 0, Flag = 1, i = 0; newString[i]; i++)
+	{
+		
+		/* Все пробелы заменяем на символ конца строки */
+		if (newString[i] == ' ')
+		{
+			newString[i] = 0;
+			Flag = 1;
+		}
+	
+		/* Позиции первых после пробелов символов записываем в массив */
+		else if (Flag)
+		{
+			Words[Number++] = i;
+			Flag = 0;
+		}
+
+	}
+
+	
+	for (j = Number - 1; j > 0; j--)
+		for (i = 0; i < j; i++)
+			if (strcmp(&newString[Words[i]], &newString[Words[i + 1]]) > 0)
+			{
+				Temp = Words[i];
+				Words[i] = Words[i + 1];
+				Words[i + 1] = Temp;
+			}
+
+
+	for (i = 0; i < Number; i++)
+		printf("%s\n", &newString[Words[i]]);
+	getchar();
+} 
