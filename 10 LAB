@@ -1,0 +1,96 @@
+//По содержимому текстового файла составить словарь.
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#ifdef _MSC_VER 
+//define on 64bit system strncasecmp 
+#define strncasecmp _strnicmp
+#define strcasecmp _stricmp
+#endif
+
+struct treeNode {
+	char word[128];
+	struct treeNode *left, *right;
+};
+
+struct treeNode *root = NULL;
+
+struct treeNode * createNode(char *word) {
+	struct treeNode *newnode;
+	newnode = (struct treeNode *)malloc(sizeof(struct treeNode));
+	strcpy_s(newnode->word, word);
+	newnode->left = newnode->right = NULL;
+	return newnode;
+}
+
+void insert(char *word) {
+	struct treeNode *parent = NULL, *current = NULL, *newnode = NULL;
+	int res = 0;
+	if (!root) {
+		root = createNode(word);
+		return;
+	}
+	for (current = root; current != NULL;
+		current = (res > 0) ? current->right : current->left) {
+		res = strcasecmp(word, current->word);
+		if (res == 0) {
+			return;
+		}
+		parent = current;
+	}
+	newnode = createNode(word);
+	res > 0 ? (parent->right = newnode) : (parent->left = newnode);
+	return;
+}
+
+void inorderTree(struct treeNode *myNode) {
+	if (myNode) {
+		inorderTree(myNode->left);
+		printf("Word  : %s", myNode->word);
+		printf("\n");
+		inorderTree(myNode->right);
+	}
+	return;
+}
+
+void main() {
+
+	
+	FILE *file;
+	fopen_s(&file, "test.txt", "rt");
+	if (file == NULL)
+	{
+		return;
+	}
+		int ch, word,count = 0;
+		char str[128];
+		while ((ch = fgetc(file)) != EOF)
+		{
+			if (isspace(ch) || ispunct(ch) || !isalpha(ch))
+			{
+				if (word)
+				{
+					word = 0;
+					str[count++] = 0;
+					insert(str);
+					memset(str, 0, sizeof(str));
+					count = 0;
+				}
+			}
+			else
+			{
+				word = 1;
+				str[count] = ch;
+			}
+			
+			count++;
+			if (count == 1 && str[0] == 0) {
+				count = 0;
+			}
+		}
+		fclose(file);
+
+		inorderTree(root);
+	getchar();
+}
