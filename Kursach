@@ -1,0 +1,121 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <locale.h>
+#pragma warning(disable : 4996)
+#define STRLEN 100
+typedef struct
+{
+	int StartHourReception;
+	int StartMinReception;
+	int EndHourReception;
+	int EndMinReception;
+	char Speciality[STRLEN];
+	char Name[STRLEN];
+	char Surname[STRLEN];
+}Doctor;
+
+void out(FILE *f, Doctor *addDoctor, int size)
+{
+	fwrite(&size, sizeof(int), 1, f);
+	fwrite(addDoctor, sizeof(Doctor), size, f);
+}
+
+void in(FILE *f, Doctor *addDoctor, int *size)
+{
+	fread(size, sizeof(int), 1, f);
+	fread(addDoctor, sizeof(Doctor), *size, f);
+}
+
+Doctor addDoctor() {
+	Doctor newDoctor;
+	printf("\nИмя доктора: ");
+	scanf("%d", &newDoctor.Name);
+	printf("\nФамилия: ");
+	scanf("%d", &newDoctor.Surname);
+	return newDoctor;
+}
+
+void show(Doctor *dct, int size)
+{
+	int i;
+	for (i = 0; i< size; i++)
+	{
+		printf("\nИмя доктора: %d \nФамилия \n", dct[i].Name, dct[i].Surname);
+	}
+}
+
+void find(Doctor *dct, int size)
+{
+	char adr[STRLEN];
+	printf("\nИмя доктора:");
+	scanf("%d", &adr);
+	for (int i = 0; i< size; i++)
+		if (dct[i].Name == adr)
+			printf("\nПо вашему запросу найдено: \nИмя доктора: %d \nФамилия: \n", dct[i].Name, dct[i].Surname);
+}
+
+int adr(const void *f, const void *s)
+{
+	return strcmp(((Doctor*)f)->Name, ((Doctor*)s)->Name) > 0;
+}
+
+int cen(const void *f, const void *s)
+{
+	return (((Doctor*)f)->Surname - ((Doctor*)s)->Surname<0);
+}
+
+int main()
+{
+	setlocale(LC_ALL, "");
+	Doctor mp[100];
+	int size = 0, i;
+	FILE *f = fopen("file.txt", "rb");
+	if (f)
+	{
+		in(f, mp, &size);
+		fclose(f);
+	}
+	f = fopen("file.txt", "wb");
+	while (1) {
+		printf("Введите:\n|1| - если хотите добавить квартиру\n");
+		printf("|2| - если хотите удалить квартиру\n");
+		printf("|3| - если хотите сортировать по адресу\n");
+		printf("|4| - если хотите сортировать по цене\n");
+		printf("|5| - если хотите отобразить весь список\n");
+		printf("|6| - если хотите открыть поиск\n");
+		printf("|0| - если хотите выйти\n>");
+		scanf("%d", &i);
+		switch (i) {
+		case 1:
+			mp[size] = addDoctor();
+			size++;
+			break;
+		case 2:
+			printf("\nУкажите номер квартиры(начиная с нуля) по списку: ");
+			scanf("%d", &i);
+			--size;
+			for (; i< size; i++)
+				mp[i] = mp[i + 1];
+			break;
+		case 3:
+			qsort(mp, size, sizeof(Doctor), adr);
+			show(mp, size);
+			break;
+		case 4:
+			qsort(mp, size, sizeof(Doctor), cen);
+			show(mp, size);
+			break;
+		case 5:
+			show(mp, size);
+			break;
+		case 6:
+			find(mp, size);
+			break;
+		case 0:
+			out(f, mp, size);
+			fclose(f);
+			return 0;
+		}
+	}
+}
