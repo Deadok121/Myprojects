@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <locale.h>
+#include <ctype.h>
 #pragma warning(disable : 4996)
 #define STRLEN 100
 typedef struct
@@ -31,24 +32,33 @@ Doctor addDoctor() {
 	scanf("%s", &newDoctor.Name);
 	printf("Фамилия: ");
 	scanf("%s", &newDoctor.Surname);
-	while(true)
+	printf("Начинает приём (ч): ");
+	while (true)
 	{
-		printf("Начинает приём (ч): ");
+		
 		int start;
-		scanf("%d", &start);
-		if(start < 21 && start >7)
+		
+		if (scanf("%d", &start) != 1) {
+			printf("Не корректное время приёма.Введите время от 8 до 20 часов.\n");
+			fseek(stdin, 0, SEEK_END);
+			continue;
+		}
+		if (start < 21 && start >7)
 		{
 			newDoctor.StartHourReception = start;
 			break;
 		}
 		printf("Не корректное время приёма.Введите время от 8 до 20 часов.\n");
 	}
-	
+	printf("Заканчивает приём (ч): ");
 	while (true)
 	{
-		printf("Заканчивает приём (ч): ");
 		int end;
-		scanf("%d", &end);
+		if (scanf("%d", &end) != 1) {
+			printf("Не корректное время приёма.Введите время от 8 до 20 часов.\n");
+			fseek(stdin, 0, SEEK_END);
+			continue;
+		}
 		if (end < 21 && end > 7 && newDoctor.StartHourReception < end)
 		{
 			newDoctor.EndHourReception = end;
@@ -68,7 +78,7 @@ void show(Doctor *dct, int size)
 	for (i = 0; i< size; i++)
 	{
 		printf("\nИмя найденного доктора: %s \nФамилия: %s \nСпециальность: %s \nВремя работы: c %d до %d ч\n"
-			, dct[i].Name, dct[i].Surname,dct[i].Speciality,dct[i].StartHourReception,dct[i].EndHourReception);
+			, dct[i].Name, dct[i].Surname, dct[i].Speciality, dct[i].StartHourReception, dct[i].EndHourReception);
 	}
 }
 
@@ -78,9 +88,9 @@ void find(Doctor *dct, int size)
 	char parameter[STRLEN];
 	scanf("%s", &parameter);
 	for (int i = 0; i< size; i++)
-		if (strcmp(dct[i].Name , parameter) ||
-			strcmp(dct[i].Surname , parameter) ||
-			strcmp(dct[i].Speciality , parameter))
+		if (strcmp(dct[i].Name, parameter) ||
+			strcmp(dct[i].Surname, parameter) ||
+			strcmp(dct[i].Speciality, parameter))
 			printf("\nИмя найденного доктора: %s \nФамилия: %s \nСпециальность: %s \nВремя работы: c %d до %d ч"
 				, dct[i].Name, dct[i].Surname, dct[i].Speciality, dct[i].StartHourReception, dct[i].EndHourReception);
 }
@@ -97,13 +107,13 @@ int speciality(const void *f, const void *s)
 
 void printMenu()
 {
-	printf("Введите:\n|1| - если хотите добавить доктора в поликлиннику\n");
-	printf("|2| - если хотите уволить доктора\n");
-	printf("|3| - если хотите увидеть врачей по именам\n");
-	printf("|4| - если хотите увидеть врачей по фамилиям\n");
-	printf("|5| - если хотите редактировать данные врача фамилиям\n");
-	printf("|6| - если хотите открыть поиск\n");
-	printf("|0| - если хотите выйти\n>");
+	printf("Введите:\n|1| - добавить доктора в поликлиннику\n");
+	printf("|2| - уволить доктора\n");
+	printf("|3| - увидеть врачей (сортировка по именам)\n");
+	printf("|4| - увидеть врачей (сортировка по фамилиям)\n");
+	printf("|5| - редактировать данные врача\n");
+	printf("|6| - найти врача поиск\n");
+	printf("|0| - выйти\n>");
 	printf("\n");
 }
 
@@ -119,65 +129,89 @@ int main()
 		fclose(f);
 	}
 	f = fopen("file", "wb");
-	while(true)
+	int i = 0;
+	char flag_wasNextLine = 0;
+	while (1)
 	{
-		printMenu();
-		char name[STRLEN];
-		char surname[STRLEN];
-		char i;
-		scanf("%c", &i);
-		switch (i) {
-		case *"1":
-			mp[size] = addDoctor();
-			size++;
-			break;
-		case *"2":
-			printf("\nУвольняем врача по имени: ");
-			scanf("%s", &name);
-			printf("\nС фамилией: ");
-			scanf("%s", &surname);
-			for (int a =0; a< size; a++)
-				if(strcmp(mp[a].Name,name) &&
-					strcmp(mp[a].Surname,surname))
-			{
-				mp[a] = mp[a + 1];
-				--size;
-				printf("Уволен.\n\n");
-			}else
-			{
-					printf("Не найден.\n\n");
-			}
-			break;
-		case *"3":
-			qsort(mp, size, sizeof(Doctor), nameCmp);
-			show(mp, size);
-			break;
-		case *"4":
-			qsort(mp, size, sizeof(Doctor), speciality);
-			show(mp, size);
-			break;
-		case *"5":
-			printf("\Введите имя врача : ");
-			scanf("%s", &name);
-			printf("\n С фамилией: ");
-			scanf("%s", &surname);
-			for (int j =0 ; j< size; j++)
-				if (strcmp(mp[j].Name, name) &&
-					strcmp(mp[j].Surname, surname))
-			{
-				mp[j] = addDoctor();
-				printf("Данные изменены\n");
-			}
-			break;
-		case *"6":
-			find(mp, size);
-			break;
-		case *"0":
-			out(f, mp, size);
-			fclose(f);
-			exit(0);
-		default:
-			break;
+		if (!flag_wasNextLine)
+		{
+			printMenu();
 		}
+			char tmpc, prevc = 0;
+			i = 0;
+			while ((tmpc = getchar()) != '\n')
+			{
+				i++;
+				prevc = prevc * 10 + tmpc;
+			}
+			if (i == 0)
+				flag_wasNextLine = 1;
+			else
+				flag_wasNextLine = 0;
+
+			i = prevc - '0';
+			char name[STRLEN];
+			char surname[STRLEN];
+			switch (i) {
+			case 1:
+				mp[size] = addDoctor();
+				size++;
+				break;
+			case 2:
+				printf("\nУвольняем врача по имени: ");
+				scanf("%s", &name);
+				printf("\nС фамилией: ");
+				scanf("%s", &surname);
+				for (int a = 0; a< size; a++)
+					if (strcmp(mp[a].Name, name) &&
+						strcmp(mp[a].Surname, surname))
+					{
+						mp[a] = mp[a + 1];
+						--size;
+						printf("Уволен.\n\n");
+					}
+					else
+					{
+						printf("Не найден.\n\n");
+					}
+				break;
+			case 3:
+				qsort(mp, size, sizeof(Doctor), nameCmp);
+				show(mp, size);
+				break;
+			case 4:
+				qsort(mp, size, sizeof(Doctor), speciality);
+				show(mp, size);
+				break;
+			case 5:
+				char paramName[STRLEN];
+				char paramSurname[STRLEN];
+				printf("\Введите имя врача : ");
+				scanf("%s", &name);
+				printf("С фамилией: ");
+				scanf("%s", &surname);
+				for (int j = 0; j < size; j++) {
+					
+					if (strcmp(mp[i].Name, paramName)  &&
+						strcmp(mp[j].Surname, paramSurname) )
+					{
+						mp[j] = addDoctor();
+						printf("Данные изменены\n");
+					}
+					else {
+						printf("Врач не найден.\n");
+					}
+				}
+				break;
+			case 6:
+				find(mp, size);
+				break;
+			case 0:
+				out(f, mp, size);
+				fclose(f);
+				exit(0);
+			default:
+				break;
+			}
 	}
 }
