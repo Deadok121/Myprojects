@@ -88,9 +88,9 @@ void find(Doctor *dct, int size)
 	char parameter[STRLEN];
 	scanf("%s", &parameter);
 	for (int i = 0; i< size; i++)
-		if (strcmp(dct[i].Name, parameter) ||
-			strcmp(dct[i].Surname, parameter) ||
-			strcmp(dct[i].Speciality, parameter))
+		if (!strcmp(dct[i].Name, parameter) ||
+			!strcmp(dct[i].Surname, parameter) ||
+			!strcmp(dct[i].Speciality, parameter))
 			printf("\nИмя найденного доктора: %s \nФамилия: %s \nСпециальность: %s \nВремя работы: c %d до %d ч"
 				, dct[i].Name, dct[i].Surname, dct[i].Speciality, dct[i].StartHourReception, dct[i].EndHourReception);
 }
