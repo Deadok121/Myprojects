@@ -91,7 +91,7 @@ void find(Doctor *dct, int size)
 		if (!strcmp(dct[i].Name, parameter) ||
 			!strcmp(dct[i].Surname, parameter) ||
 			!strcmp(dct[i].Speciality, parameter))
-			printf("\nИмя найденного доктора: %s \nФамилия: %s \nСпециальность: %s \nВремя работы: c %d до %d ч"
+			printf("\nИмя найденного доктора: %s \nФамилия: %s \nСпециальность: %s \nВремя работы: c %d до %d ч\n"
 				, dct[i].Name, dct[i].Surname, dct[i].Speciality, dct[i].StartHourReception, dct[i].EndHourReception);
 }
 
