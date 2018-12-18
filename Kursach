@@ -152,6 +152,8 @@ int main()
 			i = prevc - '0';
 			char name[STRLEN];
 			char surname[STRLEN];
+			int a = 0;
+			int pos = -1;
 			switch (i) {
 			case 1:
 				mp[size] = addDoctor();
@@ -162,18 +164,24 @@ int main()
 				scanf("%s", &name);
 				printf("\nС фамилией: ");
 				scanf("%s", &surname);
-				for (int a = 0; a< size; a++)
-					if (strcmp(mp[a].Name, name) &&
-						strcmp(mp[a].Surname, surname))
-					{
-						mp[a] = mp[a + 1];
-						--size;
-						printf("Уволен.\n\n");
-					}
-					else
-					{
-						printf("Не найден.\n\n");
-					}
+				pos =-1;
+				for (int a = 0; a < size; a++) {
+				if (!(strcmp(mp[a].Name, name) == 1) && (!
+					strcmp(mp[a].Surname, surname)== 1)) {
+					pos = a;
+					break;
+				}
+				}
+				if (pos != -1 ) {
+					size--;
+					for (; pos < size; pos++)
+						mp[pos] = mp[pos + 1];
+					printf("Уволен.\n\n");
+					break;
+				}
+				else {
+					printf("Не найден.\n\n");
+				}
 				break;
 			case 3:
 				qsort(mp, size, sizeof(Doctor), nameCmp);
