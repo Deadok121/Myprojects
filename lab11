@@ -1,0 +1,86 @@
+//Вывести на экран содержимое файла с программой на языке С, выделяя в строке все слова.
+#include <stdio.h>
+#include <string.h>
+#include <windows.h>
+#pragma warning (disable:4996)
+#define LETTER 1
+#define NOT_THE_LETTER 0
+#define MAXLEN 1000
+int main()
+{
+	HANDLE hStdout; 
+	FILE *fp; 
+	char line[MAXLEN]; 
+	char word[MAXLEN]; 
+	int i;
+	int flag;
+	int prev_flag; 
+	char *ptrString; 
+	WORD wordColor; 
+	WORD separatorСolor; 
+	WORD symbColor;
+	WORD backgroundColor; 
+	WORD textAttribute; 
+	hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+	wordColor = FOREGROUND_INTENSITY | FOREGROUND_BLUE |
+		FOREGROUND_GREEN ;
+	separatorСolor = FOREGROUND_INTENSITY | FOREGROUND_RED;
+	backgroundColor = BACKGROUND_INTENSITY | BACKGROUND_BLUE |
+		BACKGROUND_GREEN | BACKGROUND_RED;
+	SetConsoleTextAttribute(hStdout, wordColor | backgroundColor);
+	fp = fopen("text.txt.txt", "r+");
+	if (fp == NULL) {
+		perror("Error");
+		return 0; 
+	}
+	while (!feof(fp))
+	{
+		ptrString = fgets(line, MAXLEN, fp);
+		if (ptrString == NULL)
+			break;
+		i = 0;
+		prev_flag = flag = NOT_THE_LETTER;
+		word[0] = '\0';
+		while (*ptrString != 0)
+		{
+			prev_flag = flag; 
+			if (
+				*ptrString == ' ' || *ptrString == ',' || *ptrString == '.' ||
+				*ptrString == '\n'
+				)
+				flag = NOT_THE_LETTER;
+			else
+				flag = LETTER;
+			if (flag != prev_flag)
+			{
+				
+				word[i] = '\0'; 
+								
+				symbColor = (prev_flag == LETTER) ?
+					wordColor :
+					separatorСolor;
+				textAttribute = symbColor | backgroundColor;
+				SetConsoleTextAttribute(hStdout, textAttribute);
+				printf("%s", word); 
+				i = 0; 
+			}
+			word[i++] = *ptrString++;
+		}
+		if (i != 0)
+		{
+			word[i] = '\0'; 
+							
+			symbColor = (prev_flag == LETTER) ?
+				wordColor :
+				separatorСolor;
+			textAttribute = symbColor | backgroundColor;
+			SetConsoleTextAttribute(hStdout, textAttribute);
+			printf("%s", word); 
+		}
+	}
+	printf("\n");
+	SetConsoleTextAttribute(hStdout, 7);
+	fclose(fp);
+	getchar();
+	return 0;
+}
