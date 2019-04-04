@@ -83,9 +83,6 @@
 		<Unit filename="/Users/Roman/CLionProjects/queue/Node.h">
 			<Option target="queue"/>
 		</Unit>
-		<Unit filename="/Users/Roman/CLionProjects/queue/cmake-build-debug/Queue_Impl.cpp">
-			<Option target="queue"/>
-		</Unit>
 		<Unit filename="/Users/Roman/CLionProjects/queue/main.cpp">
 			<Option target="queue"/>
 		</Unit>

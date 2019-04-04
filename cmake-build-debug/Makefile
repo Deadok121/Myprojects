@@ -39,10 +39,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /private/var/folders/f1/qv1rjk8s7d793_y6r3c9j0lc0000gn/T/AppTranslocation/D50CD2FA-B4A1-4970-9962-ED4C73AF3712/d/CLion.app/Contents/bin/cmake/mac/bin/cmake
+CMAKE_COMMAND = /private/var/folders/f1/qv1rjk8s7d793_y6r3c9j0lc0000gn/T/AppTranslocation/534BEA63-F40E-49AD-A640-2A2BC9FFEBB0/d/CLion.app/Contents/bin/cmake/mac/bin/cmake
 
 # The command to remove a file.
-RM = /private/var/folders/f1/qv1rjk8s7d793_y6r3c9j0lc0000gn/T/AppTranslocation/D50CD2FA-B4A1-4970-9962-ED4C73AF3712/d/CLion.app/Contents/bin/cmake/mac/bin/cmake -E remove -f
+RM = /private/var/folders/f1/qv1rjk8s7d793_y6r3c9j0lc0000gn/T/AppTranslocation/534BEA63-F40E-49AD-A640-2A2BC9FFEBB0/d/CLion.app/Contents/bin/cmake/mac/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /Users/Roman/CLionProjects/queue/cmake-build-debug
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/private/var/folders/f1/qv1rjk8s7d793_y6r3c9j0lc0000gn/T/AppTranslocation/D50CD2FA-B4A1-4970-9962-ED4C73AF3712/d/CLion.app/Contents/bin/cmake/mac/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/private/var/folders/f1/qv1rjk8s7d793_y6r3c9j0lc0000gn/T/AppTranslocation/534BEA63-F40E-49AD-A640-2A2BC9FFEBB0/d/CLion.app/Contents/bin/cmake/mac/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -70,7 +70,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/private/var/folders/f1/qv1rjk8s7d793_y6r3c9j0lc0000gn/T/AppTranslocation/D50CD2FA-B4A1-4970-9962-ED4C73AF3712/d/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/private/var/folders/f1/qv1rjk8s7d793_y6r3c9j0lc0000gn/T/AppTranslocation/534BEA63-F40E-49AD-A640-2A2BC9FFEBB0/d/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -123,33 +123,6 @@ queue/fast:
 	$(MAKE) -f CMakeFiles/queue.dir/build.make CMakeFiles/queue.dir/build
 .PHONY : queue/fast
 
-Queue_Impl.o: Queue_Impl.cpp.o
-
-.PHONY : Queue_Impl.o
-
-# target to build an object file
-Queue_Impl.cpp.o:
-	$(MAKE) -f CMakeFiles/queue.dir/build.make CMakeFiles/queue.dir/Queue_Impl.cpp.o
-.PHONY : Queue_Impl.cpp.o
-
-Queue_Impl.i: Queue_Impl.cpp.i
-
-.PHONY : Queue_Impl.i
-
-# target to preprocess a source file
-Queue_Impl.cpp.i:
-	$(MAKE) -f CMakeFiles/queue.dir/build.make CMakeFiles/queue.dir/Queue_Impl.cpp.i
-.PHONY : Queue_Impl.cpp.i
-
-Queue_Impl.s: Queue_Impl.cpp.s
-
-.PHONY : Queue_Impl.s
-
-# target to generate assembly for a file
-Queue_Impl.cpp.s:
-	$(MAKE) -f CMakeFiles/queue.dir/build.make CMakeFiles/queue.dir/Queue_Impl.cpp.s
-.PHONY : Queue_Impl.cpp.s
-
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -186,9 +159,6 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... queue"
-	@echo "... Queue_Impl.o"
-	@echo "... Queue_Impl.i"
-	@echo "... Queue_Impl.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

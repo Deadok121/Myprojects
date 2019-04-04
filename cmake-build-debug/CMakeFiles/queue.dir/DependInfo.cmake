@@ -4,7 +4,6 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/Roman/CLionProjects/queue/cmake-build-debug/Queue_Impl.cpp" "/Users/Roman/CLionProjects/queue/cmake-build-debug/CMakeFiles/queue.dir/Queue_Impl.cpp.o"
   "/Users/Roman/CLionProjects/queue/main.cpp" "/Users/Roman/CLionProjects/queue/cmake-build-debug/CMakeFiles/queue.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")
