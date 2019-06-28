@@ -1,0 +1,53 @@
+//Скопировать содержимое текстового файла, ограничив длину строки N символами.Слова,
+//не помещающиеся в строку заданной длины, скопировать в виде новой строки.
+#include <stdio.h>
+#define MAXLINE 1024
+#define N 5
+void main()
+{
+	FILE *fpin;
+	FILE *fpout;
+	char line[MAXLINE];
+	char secondLine[MAXLINE];
+	char *ptr;
+	char c;
+	char newLine;
+	int i = 0, n = 0, index = 0, counter = 0;
+	fopen_s(&fpin, "test.txt", "rt");
+	if (fpin == NULL)
+		return;
+	fopen_s(&fpout, "result.txt", "wt");
+	if (fpout == NULL)
+		return;
+	
+	newLine = *"\n";
+	while (!feof(fpin))
+	{
+	ptr = fgets(line, MAXLINE, fpin);
+	counter = 0;
+	index = 0;
+		if (ptr == NULL) {
+			break;
+		}
+		while (*ptr != '\0')
+		{
+			c = *ptr;
+			if (counter <= N) {
+				fputc(c, fpout);
+				if (counter == N) {
+					fputc(newLine, fpout);
+				}
+			}
+			if (counter > N) {
+				secondLine[index] = c;
+				index++;
+			}
+			counter++;
+			ptr++;
+		}
+		secondLine[index++] = *"\0";
+		fputs(secondLine, fpout);
+	}
+	fclose(fpin);
+	fclose(fpout);
+}

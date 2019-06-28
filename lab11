@@ -1,0 +1,82 @@
+//Вывести на экран содержимое файла с программой на языке С, выделяя в строке все слова.
+#include <stdio.h>
+#include <string.h>
+#include <windows.h>
+#pragma warning (disable:4996)
+#define LETTER 1
+#define NOT_THE_LETTER 0
+#define MAXLEN 1000
+int main()
+{
+	HANDLE hStdout;
+	FILE *fp;
+	char line[MAXLEN];
+	char word[MAXLEN];
+	int i;
+	int flag;
+	int prev_flag;
+	char *ptrString;
+	WORD wordColor;
+	WORD separatorСolor;
+	WORD symbColor;
+	WORD textAttribute;
+	hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+	wordColor = FOREGROUND_INTENSITY | COLOR_BACKGROUND |
+		FOREGROUND_GREEN;
+	separatorСolor = FOREGROUND_INTENSITY | FOREGROUND_RED;
+	SetConsoleTextAttribute(hStdout, wordColor );
+	fp = fopen("text.txt.txt", "r+");
+	if (fp == NULL) {
+		perror("Error");
+		return 0;
+	}
+	while (!feof(fp))
+	{
+		ptrString = fgets(line, MAXLEN, fp);
+		if (ptrString == NULL)
+			break;
+		i = 0;
+		prev_flag = flag = NOT_THE_LETTER;
+		word[0] = '\0';
+		while (*ptrString != 0)
+		{
+			prev_flag = flag;
+			int ascii = (int)*ptrString;
+			if (
+				(ascii >64 && ascii  < 91) || (ascii > 96 && ascii < 123)
+				)
+				flag = LETTER;
+			else
+			flag = NOT_THE_LETTER;
+			if (flag != prev_flag)
+			{
+
+				word[i] = '\0';
+				symbColor = (prev_flag == LETTER) ?
+					wordColor :
+					separatorСolor;
+				textAttribute = symbColor;
+				SetConsoleTextAttribute(hStdout, textAttribute);
+				printf("%s", word);
+				i = 0;
+			}
+			word[i++] = *ptrString++;
+		}
+		if (i != 0)
+		{
+			word[i] = '\0';
+
+			symbColor = (prev_flag == LETTER) ?
+				wordColor :
+				separatorСolor;
+			textAttribute = symbColor;
+			SetConsoleTextAttribute(hStdout, textAttribute);
+			printf("%s", word);
+		}
+	}
+	printf("\n");
+	SetConsoleTextAttribute(hStdout, 7);
+	fclose(fp);
+	getchar();
+	return 0;
+}
